@@ -1,38 +1,29 @@
 import React, { useState } from 'react';
+import CheckListForm from '../components/CheckListForm';
 import { checkItem } from '../types/check';
 const CheckList= () => {
-  const [checks, setchecks] = useState<Array<checkItem>|[]>([]);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [checks, setChecks] = useState<Array<checkItem>|null>(null);
 
-  function handleInputChange(event:any) {
-    setInputValue(event.target.value);
-  }
 
-  function handleFormSubmit(event:any) {
-    event.preventDefault();
-
-    const newCheckItem = {
-      id: Date.now(),
-      title: inputValue,
-      isChecked:false,
-      url:'https://www.google.co.kr/'
-    };
-    setchecks([...checks, newCheckItem]);
+  const removeItem=(id:number)=> {
+    if (!checks)return
     
-    setInputValue('');
-  }
 
+    const updatedItems = checks.filter((check:checkItem)=> check.id !==id)
+    setChecks(updatedItems);
+  }
+  
+
+  
   return (
     <div>
       <h1>check List</h1>
-      <form onSubmit={handleFormSubmit}>
-        <input type="text" value={inputValue} onChange={handleInputChange} />
-        <button type="submit">Add check</button>
-      </form>
+      <CheckListForm checks={checks} setChecks={setChecks}/>
       <ul>
         {checks &&checks.map((check:checkItem) => (
           <li key={check.id}>{check.title}
             <a href={check.url} target="_blank" rel="noreferrer">Go to site</a>
+            <button onClick={() => removeItem(check.id)}>Remove</button>
           </li>
         ))}
       </ul>
