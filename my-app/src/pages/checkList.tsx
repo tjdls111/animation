@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { checkItem } from '../types/check';
 const CheckList= () => {
-  const [checks, setchecks] = useState<Array<checkItem>|[]>([]);
+  const [checks, setChecks] = useState<Array<checkItem>|null>(null);
   const [title, setTitle] = useState<string>('');
   const [url, setUrl] = useState<string>('');
 
@@ -14,21 +14,29 @@ const CheckList= () => {
 
   const handleFormSubmit=(event:any) =>{
     event.preventDefault();
-
+    if (!checks) {
+      setChecks([]);
+    }
     const newCheckItem = {
       id: Date.now(),
       title: title,
       isChecked:false,
       url:url
     };
-    setchecks([...checks, newCheckItem]);
+
+    if (!checks) return
+    setChecks([...checks, newCheckItem]);
     
     setTitle('');
+    setUrl('');
   }
 
   const removeItem=(id:number)=> {
+    if (!checks)return
+    
+
     const updatedItems = checks.filter((check:checkItem)=> check.id !==id)
-    setchecks(updatedItems);
+    setChecks(updatedItems);
   }
   
 
