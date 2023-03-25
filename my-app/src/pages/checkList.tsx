@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { checkItem } from '../types/check';
 const CheckList= () => {
-  const [checks, setchecks] = useState<Array<checkItem>|null>(null);
+  const [checks, setchecks] = useState<Array<checkItem>|[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
 
   function handleInputChange(event:any) {
@@ -15,14 +15,9 @@ const CheckList= () => {
       id: Date.now(),
       title: inputValue,
       isChecked:false,
-      url:'dummy url'
+      url:'https://www.google.co.kr/'
     };
-    if (checks){
-      setchecks([...checks, newCheckItem]);
-    }
-    else{
-      setchecks([ newCheckItem]);
-    }
+    setchecks([...checks, newCheckItem]);
     
     setInputValue('');
   }
@@ -36,7 +31,9 @@ const CheckList= () => {
       </form>
       <ul>
         {checks &&checks.map((check:checkItem) => (
-          <li key={check.id}>{check.title}</li>
+          <li key={check.id}>{check.title}
+            <a href={check.url} target="_blank" rel="noreferrer">Go to site</a>
+          </li>
         ))}
       </ul>
     </div>
