@@ -1,37 +1,35 @@
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { checkItem } from '../types/check';
+import React, { type Dispatch, type SetStateAction, useState } from 'react'
+import { type checkItem } from '../types/check'
 
-const CheckListForm = ({checks,setChecks}:{checks:Array<checkItem>|null; setChecks:Dispatch<SetStateAction<checkItem[] | null>>
+const CheckListForm = ({ checks, setChecks }: { checks: checkItem[] | null; setChecks: Dispatch<SetStateAction<checkItem[] | null>>
 }) => {
+  const [title, setTitle] = useState<string>('')
+  const [url, setUrl] = useState<string>('')
 
-  const [title, setTitle] = useState<string>('');
-  const [url, setUrl] = useState<string>('');
-
-
-  const handleTitleChange= (event:any)=> {
-    setTitle(event.target.value);
+  const handleTitleChange = (event: any) => {
+    setTitle(event.target.value)
   }
-  const handleUrlChange= (event:any)=> {
-    setUrl(event.target.value);
+  const handleUrlChange = (event: any) => {
+    setUrl(event.target.value)
   }
 
-  const handleFormSubmit=(event:any) =>{
-    event.preventDefault();
-    if (!checks) {
-      setChecks([]);
+  const handleFormSubmit = (event: any) => {
+    event.preventDefault()
+    if (checks == null) {
+      setChecks([])
     }
     const newCheckItem = {
       id: Date.now(),
-      title: title,
-      isChecked:false,
-      url:url
-    };
+      title,
+      isChecked: false,
+      url
+    }
 
-    if (!checks) return
-    setChecks([...checks, newCheckItem]);
-    
-    setTitle('');
-    setUrl('');
+    if (checks == null) return
+    setChecks([...checks, newCheckItem])
+
+    setTitle('')
+    setUrl('')
   }
 
   return (
@@ -40,7 +38,7 @@ const CheckListForm = ({checks,setChecks}:{checks:Array<checkItem>|null; setChec
       <input type="text" value={url} onChange={handleUrlChange} />
       <button type="submit">Add check</button>
   </form>
-  );
-};
+  )
+}
 
-export default CheckListForm;
+export default CheckListForm
